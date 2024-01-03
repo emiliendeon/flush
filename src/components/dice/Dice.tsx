@@ -5,6 +5,8 @@ import { useMemo } from "react";
 
 export type DiceProps = {
 	value?: 0 | 1 | 2 | 3 | 4 | 5;
+	locked?: boolean;
+	onClick?: () => void;
 };
 
 type Text = { content: string; color: string };
@@ -20,7 +22,14 @@ const ValueToText: { [K in NonNullable<DiceProps["value"]>]: Text } = [
 
 const DefaultText: Text = { content: "?", color: "gray" };
 
-const Dice = ({ value }: DiceProps) => {
+const Dice = ({ value, locked, onClick }: DiceProps) => {
+	const label = useMemo(() => {
+		if (locked) {
+			return "Déverrouiller";
+		}
+		return "Verrouiller";
+	}, [locked]);
+
 	const text = useMemo(() => {
 		if (value === undefined) {
 			return DefaultText;
@@ -29,7 +38,15 @@ const Dice = ({ value }: DiceProps) => {
 	}, [value]);
 
 	return (
-		<div className={clsx("dice", text.color)}>
+		<div
+			className={clsx("dice", text.color, {
+				locked,
+			})}
+			role="button"
+			aria-label={label}
+			aria-disabled={value === undefined}
+			onClick={onClick}
+		>
 			<div className="content">{text.content}</div>
 		</div>
 	);

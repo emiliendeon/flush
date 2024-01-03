@@ -8,16 +8,32 @@ type DiceRollerProps = {
 	diceCount: number;
 };
 
+type DiceState = {
+	value: DiceProps["value"];
+	locked: boolean;
+};
+
 const DiceRoller = ({ diceCount }: DiceRollerProps) => {
-	const [values, setValues] = useState<Array<DiceProps["value"]>>(
-		Array.from({ length: diceCount }, () => undefined)
+	const [diceStates, setDiceStates] = useState<DiceState[]>(
+		Array.from({ length: diceCount }, () => ({ value: undefined, locked: false }))
 	);
 
+	const onDiceClick = (diceIndex: number) => {
+		setDiceStates((prev) =>
+			prev.map((diceState, index) =>
+				index === diceIndex && diceState.value !== undefined
+					? { ...diceState, locked: !diceState.locked }
+					: diceState
+			)
+		);
+	};
+
 	const onRoll = () => {
-		setValues(
-			Array.from(
-				{ length: diceCount },
-				() => Math.floor(Math.random() * 6) as DiceProps["value"]
+		setDiceStates((prev) =>
+			prev.map((diceState) =>
+				diceState.locked
+					? diceState
+					: { ...diceState, value: Math.floor(Math.random() * 6) as DiceProps["value"] }
 			)
 		);
 	};
@@ -26,7 +42,14 @@ const DiceRoller = ({ diceCount }: DiceRollerProps) => {
 		<div className="dice-roller">
 			<div className="dice-row">
 				{Array.from({ length: diceCount }, (_v, k) => (
-					<Dice key={k} value={values[k]} />
+					<Dice
+						key={k}
+						value={diceStates[k].value}
+						locked={diceStates[k].locked}
+						onClick={() => {
+							onDiceClick(k);
+						}}
+					/>
 				))}
 			</div>
 			<Button label="Lancer" onClick={onRoll} />

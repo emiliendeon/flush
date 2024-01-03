@@ -4,8 +4,9 @@
 	align-items: center;
 	width: 40px;
 	height: 40px;
-	border: 1px solid #000000;
+	border: 2px solid #000000;
 	border-radius: 4px;
+	cursor: pointer;
 
 	.content {
 		font-size: 20px;
@@ -28,5 +29,11 @@
 		.content {
 			color: #7f7f7f;
 		}
+	}
+
+	&.locked {
+		background-color: #dfdfdf;
+		border-color: #7f7f7f;
+		opacity: 0.75;
 	}
 }
