@@ -1,0 +1,32 @@
+.dice {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 40px;
+	height: 40px;
+	border: 1px solid #000000;
+	border-radius: 4px;
+
+	.content {
+		font-size: 20px;
+		user-select: none;
+	}
+
+	&.black {
+		.content {
+			color: #000000;
+		}
+	}
+
+	&.red {
+		.content {
+			color: #df0000;
+		}
+	}
+
+	&.gray {
+		.content {
+			color: #7f7f7f;
+		}
+	}
+}

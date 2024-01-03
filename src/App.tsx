@@ -1,7 +1,9 @@
 import "./app.scss";
 
+import DiceRoller from "./components/diceRoller/DiceRoller";
+
 const App = () => {
-	return <h1>Flush</h1>;
+	return <DiceRoller diceCount={5} />;
 };
 
 export default App;
