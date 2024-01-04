@@ -36,4 +36,8 @@
 		border-color: #7f7f7f;
 		opacity: 0.75;
 	}
+
+	&.disabled {
+		pointer-events: none;
+	}
 }
