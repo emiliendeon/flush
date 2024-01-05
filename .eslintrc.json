@@ -32,11 +32,20 @@
 		"@typescript-eslint/explicit-function-return-type": "off",
 		"@typescript-eslint/strict-boolean-expressions": "off",
 		"@typescript-eslint/prefer-nullish-coalescing": "off",
+		"@typescript-eslint/no-non-null-assertion": "off",
 		"@typescript-eslint/triple-slash-reference": "off",
 		"react/react-in-jsx-scope": "off",
 		"react/display-name": "off",
 		"react/prop-types": "off",
 		"no-sparse-arrays": "off",
-		"no-console": ["error", { "allow": ["error"] }]
+		"no-console": ["error", { "allow": ["error"] }],
+		"@typescript-eslint/no-restricted-imports": [
+			"error",
+			{
+				"name": "react-redux",
+				"importNames": ["useDispatch", "useSelector"],
+				"message": "Use typed hooks `useDispatch` and `useSelector` from ./store instead."
+			}
+		]
 	}
 }

@@ -1,10 +1,11 @@
 import "./dice.scss";
 
+import { type DiceValue } from "../../types/dice";
 import clsx from "clsx";
 import { useMemo } from "react";
 
 export type DiceProps = {
-	value?: 0 | 1 | 2 | 3 | 4 | 5;
+	value?: DiceValue;
 	locked?: boolean;
 	disabled?: boolean;
 	onClick?: () => void;
@@ -12,7 +13,7 @@ export type DiceProps = {
 
 type Text = { content: string; color: string };
 
-const ValueToText: { [K in NonNullable<DiceProps["value"]>]: Text } = [
+const ValueToText: { [K in DiceValue]: Text } = [
 	{ content: "9♣", color: "black" },
 	{ content: "10♥", color: "red" },
 	{ content: "V♠", color: "black" },
