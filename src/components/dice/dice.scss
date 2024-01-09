@@ -4,7 +4,8 @@
 	align-items: center;
 	width: 40px;
 	height: 40px;
-	border: 2px solid #000000;
+	background-color: #e7dfaf;
+	border: 2px solid #c7bf97;
 	border-radius: 4px;
 	cursor: pointer;
 
@@ -27,14 +28,12 @@
 
 	&.gray {
 		.content {
-			color: #7f7f7f;
+			color: #675f4f;
 		}
 	}
 
 	&.locked {
-		background-color: #dfdfdf;
-		border-color: #7f7f7f;
-		opacity: 0.75;
+		opacity: 0.5;
 	}
 
 	&.disabled {
