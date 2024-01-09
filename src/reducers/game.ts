@@ -1,27 +1,58 @@
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { type DiceHand } from "../types/dice";
+import { ROUNDS_COUNT } from "../utils/game";
+
+type Round = {
+	hand: DiceHand;
+	isValidated?: boolean;
+};
 
 export type GameStore = {
-	hand?: DiceHand;
-	isValidated: boolean;
+	rounds: Round[];
+	currentRoundIndex: number;
 };
 
 const initialState: GameStore = {
-	isValidated: false,
+	rounds: [],
+	currentRoundIndex: 0,
 };
+
+const setRoundProperty =
+	(state: GameStore) =>
+	<T extends keyof Round>(index: number, property: T, value: Round[T]) => {
+		const rounds = [...state.rounds];
+		rounds[index] = { ...state.rounds[index], [property]: value };
+
+		return {
+			...state,
+			rounds,
+		};
+	};
 
 const GameSlice = createSlice({
 	name: "game",
 	initialState,
 	reducers: {
-		setHand: (state, { payload }: PayloadAction<GameStore["hand"]>) => {
-			return { ...state, hand: payload };
+		setCurrentRoundHand: (
+			state,
+			{ payload }: PayloadAction<GameStore["rounds"][number]["hand"]>
+		) => {
+			return setRoundProperty(state)(state.currentRoundIndex, "hand", payload);
 		},
-		resetHand: (state) => {
-			return { ...state, hand: initialState.hand };
+
+		validateCurrentRound: (state) => {
+			return setRoundProperty(state)(state.currentRoundIndex, "isValidated", true);
 		},
-		setIsValidated: (state, { payload }: PayloadAction<GameStore["isValidated"]>) => {
-			return { ...state, isValidated: payload };
+
+		goToNextRound: (state) => {
+			return {
+				...state,
+				currentRoundIndex: Math.min(state.currentRoundIndex + 1, ROUNDS_COUNT - 1),
+			};
+		},
+
+		reset: () => {
+			return initialState;
 		},
 	},
 });

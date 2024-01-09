@@ -2,11 +2,21 @@ import HandComputers from "../computers/hand";
 import { type Store } from "../store";
 import { createSelector } from "@reduxjs/toolkit";
 
-export const getHand = (state: Store) => state.game.hand;
+const getRounds = (state: Store) => state.game.rounds;
+const getCurrentRoundIndex = (state: Store) => state.game.currentRoundIndex;
+
+const getRoundIndex = (_state: Store, index: number) => index;
 
 const GameSelectors = {
-	score: createSelector([getHand], (hand) => {
-		return hand ? HandComputers.score(hand) : null;
+	currentRound: createSelector([getRounds, getCurrentRoundIndex], (rounds, currentRoundIndex) => {
+		return rounds[currentRoundIndex];
+	}),
+
+	score: createSelector([getRounds, getRoundIndex], (rounds, roundIndex) => {
+		if (!rounds[roundIndex]?.isValidated) {
+			return null;
+		}
+		return HandComputers.score(rounds[roundIndex].hand);
 	}),
 };
 

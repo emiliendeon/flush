@@ -1,46 +1,65 @@
 import "./game.scss";
 
-import NumberUtils, { NUMBER_PLACEHOLDER } from "../../utils/number";
 import { useDispatch, useSelector } from "../../store";
 import Button from "../../components/form/button/Button";
 import { type DiceHand } from "../../types/dice";
 import DiceRoller from "../../components/diceRoller/DiceRoller";
 import { GameActions } from "../../reducers/game";
 import GameSelectors from "../../selectors/game";
+import { ROUNDS_COUNT } from "../../utils/game";
+import Score from "./score/Score";
 
 const Game = () => {
-	const { hand, isValidated } = useSelector((state) => state.game);
-	const score = useSelector(GameSelectors.score);
+	const { currentRoundIndex } = useSelector((state) => state.game);
+	const currentRound = useSelector(GameSelectors.currentRound);
 
 	const dispatch = useDispatch();
 
 	const onChange = (hand: DiceHand) => {
-		dispatch(GameActions.setHand(hand));
+		dispatch(GameActions.setCurrentRoundHand(hand));
 	};
 
 	const onValidate = () => {
-		dispatch(GameActions.setIsValidated(true));
+		dispatch(GameActions.validateCurrentRound());
+	};
+
+	const onNext = () => {
+		dispatch(GameActions.goToNextRound());
 	};
 
 	const onReset = () => {
-		dispatch(GameActions.resetHand());
-		dispatch(GameActions.setIsValidated(false));
+		dispatch(GameActions.reset());
 	};
 
 	return (
 		<div id="game">
-			<div className="score">
-				{isValidated ? NumberUtils.format(score) : NUMBER_PLACEHOLDER}
+			<div className="scores">
+				{Array.from({ length: ROUNDS_COUNT }, (_v, k) => (
+					<Score key={k} roundIndex={k} />
+				))}
 			</div>
 			<DiceRoller
 				diceCount={5}
 				maxRerollsCount={1}
-				disabled={isValidated}
-				value={hand}
+				disabled={currentRound?.isValidated}
+				value={currentRound?.hand}
 				onChange={onChange}
 				onValidate={onValidate}
+				resetKey={currentRoundIndex}
 			/>
-			<Button label="Réinitialiser" disabled={!isValidated} onClick={onReset} />
+			{currentRoundIndex >= ROUNDS_COUNT - 1 ? (
+				<Button
+					label="Réinitialiser"
+					disabled={!currentRound?.isValidated}
+					onClick={onReset}
+				/>
+			) : (
+				<Button
+					label="Main suivante"
+					disabled={!currentRound?.isValidated}
+					onClick={onNext}
+				/>
+			)}
 		</div>
 	);
 };

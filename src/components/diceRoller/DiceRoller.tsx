@@ -12,6 +12,7 @@ type DiceRollerProps = {
 	value?: DiceHand;
 	onChange: (hand: DiceHand) => void;
 	onValidate: () => void;
+	resetKey?: number;
 };
 
 type DiceState = {
@@ -26,6 +27,7 @@ const DiceRoller = ({
 	value,
 	onChange,
 	onValidate,
+	resetKey,
 }: DiceRollerProps) => {
 	const [diceStates, setDiceStates] = useState<DiceState[]>(
 		Array.from({ length: diceCount }, () => ({ locked: false }))
@@ -50,11 +52,11 @@ const DiceRoller = ({
 	}, [isRerollingOver]);
 
 	useEffect(() => {
-		if (!disabled) {
+		if (resetKey !== undefined) {
 			setDiceStates((prev) => prev.map((diceState) => ({ ...diceState, locked: false })));
 			setRerollsCount(-1);
 		}
-	}, [disabled]);
+	}, [resetKey]);
 
 	const onDiceClick = (diceIndex: number) => {
 		if (rerollsCount >= 0) {
