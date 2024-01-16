@@ -4,7 +4,7 @@ import { type DiceValue } from "../../types/dice";
 import clsx from "clsx";
 import { useMemo } from "react";
 
-export type DiceProps = {
+type DiceProps = {
 	value?: DiceValue;
 	locked?: boolean;
 	disabled?: boolean;

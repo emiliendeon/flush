@@ -2,29 +2,39 @@ import "./game.scss";
 
 import { useDispatch, useSelector } from "../../store";
 import Button from "../../components/form/button/Button";
+import DealModal from "./dealModal/DealModal";
 import { type DiceHand } from "../../types/dice";
 import DiceRoller from "../../components/diceRoller/DiceRoller";
+import EndModal from "./endModal/EndModal";
 import { GameActions } from "../../reducers/game";
 import GameSelectors from "../../selectors/game";
 import { ROUNDS_COUNT } from "../../utils/game";
 import Score from "./score/Score";
 
 const Game = () => {
-	const { currentRoundIndex } = useSelector((state) => state.game);
+	const { step, currentRoundIndex } = useSelector((state) => state.game);
 	const currentRound = useSelector(GameSelectors.currentRound);
 
 	const dispatch = useDispatch();
 
-	const onChange = (hand: DiceHand) => {
+	const onChangeCurrentRound = (hand: DiceHand) => {
 		dispatch(GameActions.setCurrentRoundHand(hand));
 	};
 
-	const onValidate = () => {
+	const onValidateCurrentRound = () => {
 		dispatch(GameActions.validateCurrentRound());
 	};
 
-	const onNext = () => {
+	const onNextRound = () => {
 		dispatch(GameActions.goToNextRound());
+	};
+
+	const onDealYes = () => {
+		dispatch(GameActions.acceptDeal());
+	};
+
+	const onDealNo = () => {
+		dispatch(GameActions.rejectDeal());
 	};
 
 	const onReset = () => {
@@ -43,8 +53,8 @@ const Game = () => {
 				maxRerollsCount={1}
 				disabled={currentRound?.isValidated}
 				value={currentRound?.hand}
-				onChange={onChange}
-				onValidate={onValidate}
+				onChange={onChangeCurrentRound}
+				onValidate={onValidateCurrentRound}
 				resetKey={currentRoundIndex}
 			/>
 			{currentRoundIndex >= ROUNDS_COUNT - 1 ? (
@@ -57,9 +67,11 @@ const Game = () => {
 				<Button
 					label="Main suivante"
 					disabled={!currentRound?.isValidated}
-					onClick={onNext}
+					onClick={onNextRound}
 				/>
 			)}
+			<DealModal visible={step === "deal"} onYes={onDealYes} onNo={onDealNo} />
+			<EndModal visible={step === "end"} onClose={onReset} />
 		</div>
 	);
 };

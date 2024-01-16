@@ -4,6 +4,7 @@ import { type DiceHand, type DiceValue } from "../../types/dice";
 import { useEffect, useMemo, useState } from "react";
 import Button from "../form/button/Button";
 import Dice from "../dice/Dice";
+import NumberUtils from "../../utils/number";
 
 type DiceRollerProps = {
 	diceCount: number;
@@ -74,7 +75,7 @@ const DiceRoller = ({
 				(diceState) =>
 					(diceState.locked
 						? diceState.value
-						: Math.floor(Math.random() * 6)) as DiceValue
+						: NumberUtils.safeFloor(Math.random() * 6)) as DiceValue
 			)
 		);
 		setRerollsCount((prev) => prev + 1);

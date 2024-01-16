@@ -2,13 +2,14 @@ import "./button.scss";
 
 import clsx from "clsx";
 
-export type ButtonProps = {
+type ButtonProps = {
 	label: string;
+	description?: string;
 	disabled?: boolean;
 	onClick?: () => void;
 };
 
-const Button = ({ label, disabled, onClick }: ButtonProps) => {
+const Button = ({ label, description, disabled, onClick }: ButtonProps) => {
 	const onLocalClick = () => {
 		if (!disabled) {
 			onClick?.();
@@ -17,12 +18,13 @@ const Button = ({ label, disabled, onClick }: ButtonProps) => {
 
 	return (
 		<button
-			className={clsx("button", { disabled })}
+			className={clsx("button", { "has-description": description, disabled })}
 			type="button"
 			disabled={disabled}
 			onClick={onLocalClick}
 		>
-			{label}
+			<div className="label">{label}</div>
+			{description && <div className="description">{description}</div>}
 		</button>
 	);
 };

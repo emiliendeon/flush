@@ -9,7 +9,7 @@ type ScoreProps = {
 };
 
 const Score = ({ roundIndex }: ScoreProps) => {
-	const score = useSelector((state) => GameSelectors.score(state, roundIndex));
+	const score = useSelector((state) => GameSelectors.roundScore(state, roundIndex));
 
 	return <div className="score">{NumberUtils.format(score)}</div>;
 };

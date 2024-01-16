@@ -1,18 +1,38 @@
 .button {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	gap: 8px;
+	box-sizing: border-box;
 	height: 36px;
 	padding: 0 16px;
-	font-size: 16px;
 	background-color: #073f37;
-	color: #ffffff;
 	border: 2px solid #0f2f2f;
 	border-radius: 18px;
+	color: #ffffff;
+
+	.label {
+		font-size: 16px;
+	}
+
+	.description {
+		font-size: 14px;
+	}
 
 	&:hover {
 		background-color: #0f2f2f;
 		border-color: #073f37;
+	}
+
+	&.has-description {
+		width: 200px;
+		height: auto;
+		padding: 8px 16px;
+
+		.label {
+			font-weight: bold;
+		}
 	}
 
 	&.disabled {

@@ -2,17 +2,20 @@ import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { type DiceHand } from "../types/dice";
 import { ROUNDS_COUNT } from "../utils/game";
 
-type Round = {
+export type Round = {
 	hand: DiceHand;
 	isValidated?: boolean;
 };
 
 export type GameStore = {
+	step: "roll" | "deal" | "end";
 	rounds: Round[];
 	currentRoundIndex: number;
+	isDealAccepted?: boolean;
 };
 
 const initialState: GameStore = {
+	step: "roll",
 	rounds: [],
 	currentRoundIndex: 0,
 };
@@ -41,13 +44,32 @@ const GameSlice = createSlice({
 		},
 
 		validateCurrentRound: (state) => {
-			return setRoundProperty(state)(state.currentRoundIndex, "isValidated", true);
+			return {
+				...setRoundProperty(state)(state.currentRoundIndex, "isValidated", true),
+				step: state.currentRoundIndex >= ROUNDS_COUNT - 1 ? "deal" : state.step,
+			};
 		},
 
 		goToNextRound: (state) => {
 			return {
 				...state,
 				currentRoundIndex: Math.min(state.currentRoundIndex + 1, ROUNDS_COUNT - 1),
+			};
+		},
+
+		acceptDeal: (state) => {
+			return {
+				...state,
+				step: "end",
+				isDealAccepted: true,
+			};
+		},
+
+		rejectDeal: (state) => {
+			return {
+				...state,
+				step: "end",
+				isDealAccepted: false,
 			};
 		},
 
