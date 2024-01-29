@@ -8,7 +8,7 @@ export type Round = {
 };
 
 export type GameStore = {
-	step: "roll" | "deal" | "end";
+	step: "roll" | "deal" | "result" | "end";
 	rounds: Round[];
 	currentRoundIndex: number;
 	isDealAccepted?: boolean;
@@ -60,7 +60,7 @@ const GameSlice = createSlice({
 		acceptDeal: (state) => {
 			return {
 				...state,
-				step: "end",
+				step: "result",
 				isDealAccepted: true,
 			};
 		},
@@ -68,8 +68,15 @@ const GameSlice = createSlice({
 		rejectDeal: (state) => {
 			return {
 				...state,
-				step: "end",
+				step: "result",
 				isDealAccepted: false,
+			};
+		},
+
+		end: (state) => {
+			return {
+				...state,
+				step: "end",
 			};
 		},
 

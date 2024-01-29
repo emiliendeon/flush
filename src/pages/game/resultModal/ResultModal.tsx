@@ -1,4 +1,4 @@
-import "./endModal.scss";
+import "./resultModal.scss";
 
 import Modal, { type ChildModalProps } from "../../../components/modal/Modal";
 import Button from "../../../components/form/button/Button";
@@ -6,12 +6,12 @@ import GameSelectors from "../../../selectors/game";
 import NumberUtils from "../../../utils/number";
 import { useSelector } from "../../../store";
 
-const EndModal = ({ visible, onClose }: ChildModalProps) => {
+const ResultModal = ({ visible, onClose }: ChildModalProps) => {
 	const finalScore = useSelector(GameSelectors.finalScore);
 
 	return (
 		<Modal
-			className="end-modal"
+			className="result-modal"
 			title="Votre score final"
 			visible={visible}
 			dismissable
@@ -23,4 +23,4 @@ const EndModal = ({ visible, onClose }: ChildModalProps) => {
 	);
 };
 
-export default EndModal;
+export default ResultModal;

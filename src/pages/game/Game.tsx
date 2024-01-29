@@ -5,15 +5,17 @@ import Button from "../../components/form/button/Button";
 import DealModal from "./dealModal/DealModal";
 import { type DiceHand } from "../../types/dice";
 import DiceRoller from "../../components/diceRoller/DiceRoller";
-import EndModal from "./endModal/EndModal";
 import { GameActions } from "../../reducers/game";
 import GameSelectors from "../../selectors/game";
+import NumberUtils from "../../utils/number";
 import { ROUNDS_COUNT } from "../../utils/game";
+import ResultModal from "./resultModal/ResultModal";
 import Score from "./score/Score";
 
 const Game = () => {
 	const { step, currentRoundIndex } = useSelector((state) => state.game);
 	const currentRound = useSelector(GameSelectors.currentRound);
+	const finalScore = useSelector(GameSelectors.finalScore);
 
 	const dispatch = useDispatch();
 
@@ -37,6 +39,10 @@ const Game = () => {
 		dispatch(GameActions.rejectDeal());
 	};
 
+	const onEnd = () => {
+		dispatch(GameActions.end());
+	};
+
 	const onReset = () => {
 		dispatch(GameActions.reset());
 	};
@@ -57,6 +63,12 @@ const Game = () => {
 				onValidate={onValidateCurrentRound}
 				resetKey={currentRoundIndex}
 			/>
+			{step === "end" && (
+				<div className="final-score">
+					<div className="label">Votre score final</div>
+					<div className="value">{NumberUtils.format(finalScore)}</div>
+				</div>
+			)}
 			{currentRoundIndex >= ROUNDS_COUNT - 1 ? (
 				<Button
 					label="Réinitialiser"
@@ -71,7 +83,7 @@ const Game = () => {
 				/>
 			)}
 			<DealModal visible={step === "deal"} onYes={onDealYes} onNo={onDealNo} />
-			<EndModal visible={step === "end"} onClose={onReset} />
+			<ResultModal visible={step === "result"} onClose={onEnd} />
 		</div>
 	);
 };

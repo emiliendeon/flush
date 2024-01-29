@@ -32,7 +32,7 @@ const GameSelectors = {
 	finalScore: createSelector(
 		[getStep, getRounds, getIsDealAccepted],
 		(step, rounds, isDealAccepted) => {
-			if (step !== "end") {
+			if (!["result", "end"].includes(step)) {
 				return null;
 			}
 			return GameComputers.finalScore(rounds, isDealAccepted);

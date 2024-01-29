@@ -10,4 +10,27 @@
 		justify-content: center;
 		gap: 16px;
 	}
+
+	> .final-score {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 180px;
+		height: 70px;
+		background-color: rgba(#000000, 0.3);
+		border-radius: 24px;
+
+		.label {
+			font-size: 14px;
+			font-weight: bold;
+			color: #ffffff;
+		}
+
+		.value {
+			font-size: 28px;
+			font-weight: bold;
+			color: #ffffff;
+		}
+	}
 }
