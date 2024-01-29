@@ -7,7 +7,7 @@ import NumberUtils from "../../../utils/number";
 import { useSelector } from "../../../store";
 
 const ResultModal = ({ visible, onClose }: ChildModalProps) => {
-	const finalScore = useSelector(GameSelectors.finalScore);
+	const { finalScore } = useSelector(GameSelectors.result);
 
 	return (
 		<Modal
@@ -18,7 +18,7 @@ const ResultModal = ({ visible, onClose }: ChildModalProps) => {
 			onClose={onClose}
 		>
 			<div className="final-score">{NumberUtils.format(finalScore)}</div>
-			<Button label="Terminer" onClick={onClose} />
+			<Button label="Voir le détail" onClick={onClose} />
 		</Modal>
 	);
 };

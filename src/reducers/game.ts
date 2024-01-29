@@ -12,6 +12,7 @@ export type GameStore = {
 	rounds: Round[];
 	currentRoundIndex: number;
 	isDealAccepted?: boolean;
+	resultRandomizer?: number;
 };
 
 const initialState: GameStore = {
@@ -46,14 +47,19 @@ const GameSlice = createSlice({
 		validateCurrentRound: (state) => {
 			return {
 				...setRoundProperty(state)(state.currentRoundIndex, "isValidated", true),
-				step: state.currentRoundIndex >= ROUNDS_COUNT - 1 ? "deal" : state.step,
 			};
 		},
 
 		goToNextRound: (state) => {
+			if (state.currentRoundIndex >= ROUNDS_COUNT - 1) {
+				return {
+					...state,
+					step: "deal",
+				};
+			}
 			return {
 				...state,
-				currentRoundIndex: Math.min(state.currentRoundIndex + 1, ROUNDS_COUNT - 1),
+				currentRoundIndex: state.currentRoundIndex + 1,
 			};
 		},
 
@@ -70,10 +76,11 @@ const GameSlice = createSlice({
 				...state,
 				step: "result",
 				isDealAccepted: false,
+				resultRandomizer: Math.random(),
 			};
 		},
 
-		end: (state) => {
+		goToEnd: (state) => {
 			return {
 				...state,
 				step: "end",

@@ -7,6 +7,7 @@ const getStep = (state: Store) => state.game.step;
 const getRounds = (state: Store) => state.game.rounds;
 const getCurrentRoundIndex = (state: Store) => state.game.currentRoundIndex;
 const getIsDealAccepted = (state: Store) => state.game.isDealAccepted;
+const getResultRandomizer = (state: Store) => state.game.resultRandomizer;
 
 const getRoundIndex = (_state: Store, index: number) => index;
 
@@ -29,13 +30,23 @@ const GameSelectors = {
 		return GameComputers.deal(rounds);
 	}),
 
-	finalScore: createSelector(
-		[getStep, getRounds, getIsDealAccepted],
-		(step, rounds, isDealAccepted) => {
+	result: createSelector(
+		[getStep, getRounds, getIsDealAccepted, getResultRandomizer],
+		(step, rounds, isDealAccepted, resultRandomizer) => {
+			const bonuses = GameComputers.bonuses(rounds);
+
 			if (!["result", "end"].includes(step)) {
-				return null;
+				return { bonuses };
 			}
-			return GameComputers.finalScore(rounds, isDealAccepted);
+
+			const rawFinalScore = GameComputers.rawFinalScore(
+				rounds,
+				isDealAccepted,
+				resultRandomizer
+			);
+			const finalScore = rawFinalScore + bonuses.total;
+
+			return { bonuses, rawFinalScore, finalScore };
 		}
 	),
 };

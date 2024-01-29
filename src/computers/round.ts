@@ -1,25 +1,20 @@
+import HandComputers from "./hand";
 import { type Round } from "../reducers/game";
 
-// [A, K, Q, J, 10] -> 111 110
-// [A, Q, J, 10, 9] -> 100 000
-// [A, K, Q, 10, 9] -> 111 000
 const computeScore = (round: Round) => {
-	const handSorted = Array.from(round.hand).sort((a, b) => b - a);
+	return HandComputers.score(round.hand);
+};
 
-	let result = 0;
-	for (
-		let i = 0;
-		i < handSorted.length && (i === 0 || handSorted[i - 1] - handSorted[i] <= 1);
-		i++
-	) {
-		result += 10 ** handSorted[i];
+const computeBonusId = (round: Round) => {
+	if (!round.isValidated) {
+		return null;
 	}
-
-	return result;
+	return HandComputers.bonusId(round.hand);
 };
 
 const RoundComputers = {
 	score: computeScore,
+	bonusId: computeBonusId,
 };
 
 export default RoundComputers;

@@ -1,11 +1,11 @@
-export const NUMBER_PLACEHOLDER = "--";
+const NUMBER_PLACEHOLDER = "--";
 
 const NumberUtils = {
 	safeFloor: (n: number) => Math.floor(n + Number.EPSILON),
 
 	safeRoundUpper: (n: number) => Math.round(n + Number.EPSILON),
 
-	format: (n: number | null) => {
+	format: (n: number | null | undefined) => {
 		if (!Number.isFinite(n)) {
 			return NUMBER_PLACEHOLDER;
 		}

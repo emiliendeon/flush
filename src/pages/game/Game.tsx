@@ -1,21 +1,21 @@
 import "./game.scss";
 
 import { useDispatch, useSelector } from "../../store";
+import Bonuses from "./bonuses/Bonuses";
 import Button from "../../components/form/button/Button";
 import DealModal from "./dealModal/DealModal";
 import { type DiceHand } from "../../types/dice";
 import DiceRoller from "../../components/diceRoller/DiceRoller";
 import { GameActions } from "../../reducers/game";
 import GameSelectors from "../../selectors/game";
-import NumberUtils from "../../utils/number";
 import { ROUNDS_COUNT } from "../../utils/game";
+import ResultDetail from "./resultDetail/ResultDetail";
 import ResultModal from "./resultModal/ResultModal";
 import Score from "./score/Score";
 
 const Game = () => {
 	const { step, currentRoundIndex } = useSelector((state) => state.game);
 	const currentRound = useSelector(GameSelectors.currentRound);
-	const finalScore = useSelector(GameSelectors.finalScore);
 
 	const dispatch = useDispatch();
 
@@ -40,7 +40,7 @@ const Game = () => {
 	};
 
 	const onEnd = () => {
-		dispatch(GameActions.end());
+		dispatch(GameActions.goToEnd());
 	};
 
 	const onReset = () => {
@@ -63,24 +63,16 @@ const Game = () => {
 				onValidate={onValidateCurrentRound}
 				resetKey={currentRoundIndex}
 			/>
-			{step === "end" && (
-				<div className="final-score">
-					<div className="label">Votre score final</div>
-					<div className="value">{NumberUtils.format(finalScore)}</div>
-				</div>
-			)}
-			{currentRoundIndex >= ROUNDS_COUNT - 1 ? (
+			<Bonuses />
+			{step === "end" && <ResultDetail />}
+			{step === "roll" ? (
 				<Button
-					label="Réinitialiser"
-					disabled={!currentRound?.isValidated}
-					onClick={onReset}
-				/>
-			) : (
-				<Button
-					label="Main suivante"
+					label={currentRoundIndex >= ROUNDS_COUNT - 1 ? "Suivant" : "Main suivante"}
 					disabled={!currentRound?.isValidated}
 					onClick={onNextRound}
 				/>
+			) : (
+				<Button label="Réinitialiser" disabled={step !== "end"} onClick={onReset} />
 			)}
 			<DealModal visible={step === "deal"} onYes={onDealYes} onNo={onDealNo} />
 			<ResultModal visible={step === "result"} onClose={onEnd} />
