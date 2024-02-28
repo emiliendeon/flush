@@ -12,6 +12,7 @@ import GameSelectors from "../../selectors/game";
 import ResultDetail from "./resultDetail/ResultDetail";
 import ResultModal from "./resultModal/ResultModal";
 import Score from "./score/Score";
+import Settings from "./settings/Settings";
 
 const Game = () => {
 	const { step, currentRoundIndex } = useSelector((state) => state.game);
@@ -49,6 +50,7 @@ const Game = () => {
 
 	return (
 		<div id="game">
+			<Settings />
 			<div className="scores">
 				{Array.from({ length: ROUNDS_COUNT }, (_v, k) => (
 					<Score key={k} roundIndex={k} />

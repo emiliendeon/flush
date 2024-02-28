@@ -8,9 +8,11 @@ import {
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import GameReducer from "./reducers/game";
+import SettingsReducer from "./reducers/settings";
 
 const rootReducer = combineReducers({
 	game: GameReducer,
+	settings: SettingsReducer,
 });
 
 const store = configureStore({

@@ -9,6 +9,10 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+* {
+	font-size: 16px;
+}
+
 a {
 	text-decoration: inherit;
 }
@@ -28,4 +32,15 @@ h1 {
 button {
 	font-family: inherit;
 	cursor: pointer;
+}
+
+.ghost {
+	position: absolute;
+	margin: -1px;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	overflow: hidden;
 }

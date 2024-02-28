@@ -1,13 +1,16 @@
 import "./instruction.scss";
 
 import { type PropsWithChildren } from "react";
+import { useSelector } from "../../store";
 
 type InstructionProps = PropsWithChildren<{
 	visible?: boolean;
 }>;
 
 const Instruction = ({ visible, children }: InstructionProps) => {
-	if (!visible) {
+	const { showInstructions } = useSelector((state) => state.settings);
+
+	if (!(showInstructions && visible)) {
 		return null;
 	}
 
