@@ -1,3 +1,5 @@
+import { type GameStore } from "../reducers/game";
+
 export const ROUNDS_COUNT = 3;
 
 // defines bonus application order
@@ -53,3 +55,9 @@ export const Bonuses: { [K in BonusId]: Bonus } = {
 		value: 100000,
 	},
 };
+
+const GameUtils = {
+	isLastRound: (roundIndex: GameStore["currentRoundIndex"]) => roundIndex >= ROUNDS_COUNT - 1,
+};
+
+export default GameUtils;

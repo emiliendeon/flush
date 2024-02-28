@@ -1,6 +1,6 @@
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { type DiceHand } from "../types/dice";
-import { ROUNDS_COUNT } from "../utils/game";
+import GameUtils from "../utils/game";
 
 export type Round = {
 	hand: DiceHand;
@@ -51,7 +51,7 @@ const GameSlice = createSlice({
 		},
 
 		goToNextRound: (state) => {
-			if (state.currentRoundIndex >= ROUNDS_COUNT - 1) {
+			if (GameUtils.isLastRound(state.currentRoundIndex)) {
 				return {
 					...state,
 					step: "deal",

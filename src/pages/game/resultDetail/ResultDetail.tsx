@@ -14,7 +14,7 @@ const ResultDetail = () => {
 			<table>
 				<tbody>
 					<tr>
-						<th scope="row">Compris accepté ?</th>
+						<th scope="row">Compromis accepté ?</th>
 						<td>{BooleanUtils.format(isDealAccepted)}</td>
 					</tr>
 					<tr>

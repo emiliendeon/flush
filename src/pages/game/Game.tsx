@@ -1,5 +1,6 @@
 import "./game.scss";
 
+import GameUtils, { ROUNDS_COUNT } from "../../utils/game";
 import { useDispatch, useSelector } from "../../store";
 import Bonuses from "./bonuses/Bonuses";
 import Button from "../../components/form/button/Button";
@@ -8,7 +9,6 @@ import { type DiceHand } from "../../types/dice";
 import DiceRoller from "../../components/diceRoller/DiceRoller";
 import { GameActions } from "../../reducers/game";
 import GameSelectors from "../../selectors/game";
-import { ROUNDS_COUNT } from "../../utils/game";
 import ResultDetail from "./resultDetail/ResultDetail";
 import ResultModal from "./resultModal/ResultModal";
 import Score from "./score/Score";
@@ -61,13 +61,12 @@ const Game = () => {
 				value={currentRound?.hand}
 				onChange={onChangeCurrentRound}
 				onValidate={onValidateCurrentRound}
-				resetKey={currentRoundIndex}
 			/>
 			<Bonuses />
 			{step === "end" && <ResultDetail />}
 			{step === "roll" ? (
 				<Button
-					label={currentRoundIndex >= ROUNDS_COUNT - 1 ? "Suivant" : "Main suivante"}
+					label={GameUtils.isLastRound(currentRoundIndex) ? "Suivant" : "Main suivante"}
 					disabled={!currentRound?.isValidated}
 					onClick={onNextRound}
 				/>

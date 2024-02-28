@@ -7,6 +7,9 @@ const NumberUtils = {
 
 	format: (n: number | null | undefined) => {
 		if (!Number.isFinite(n)) {
+			if (n === Infinity) {
+				return "\u221e";
+			}
 			return NUMBER_PLACEHOLDER;
 		}
 		return n!.toLocaleString();
