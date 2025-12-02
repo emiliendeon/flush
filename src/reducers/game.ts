@@ -1,5 +1,5 @@
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { type DiceHand } from "../types/dice";
+import { type DiceHand } from "../types/die";
 import GameUtils from "../utils/game";
 
 export type Round = {

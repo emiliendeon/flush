@@ -1,11 +1,11 @@
-import "./dice.scss";
+import "./die.scss";
 
-import { type DiceValue } from "../../types/dice";
+import { type DieValue } from "../../types/die";
 import clsx from "clsx";
 import { useMemo } from "react";
 
-type DiceProps = {
-	value?: DiceValue;
+type DieProps = {
+	value?: DieValue;
 	locked?: boolean;
 	disabled?: boolean;
 	onClick?: () => void;
@@ -13,7 +13,7 @@ type DiceProps = {
 
 type Text = { content: string; color: string };
 
-const ValueToText: { [K in DiceValue]: Text } = [
+const ValueToText: { [K in DieValue]: Text } = [
 	{ content: "9♣", color: "black" },
 	{ content: "10♥", color: "red" },
 	{ content: "V♠", color: "black" },
@@ -24,7 +24,7 @@ const ValueToText: { [K in DiceValue]: Text } = [
 
 const DefaultText: Text = { content: "?", color: "gray" };
 
-const Dice = ({ value, locked, disabled, onClick }: DiceProps) => {
+const Die = ({ value, locked, disabled, onClick }: DieProps) => {
 	const isDisabled = useMemo(() => {
 		return disabled || value === undefined;
 	}, [disabled, value]);
@@ -51,7 +51,7 @@ const Dice = ({ value, locked, disabled, onClick }: DiceProps) => {
 
 	return (
 		<div
-			className={clsx("dice", text.color, {
+			className={clsx("die", text.color, {
 				locked,
 				disabled: isDisabled,
 			})}
@@ -65,4 +65,4 @@ const Dice = ({ value, locked, disabled, onClick }: DiceProps) => {
 	);
 };
 
-export default Dice;
+export default Die;

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "../../store";
 import Bonuses from "./bonuses/Bonuses";
 import Button from "../../components/form/button/Button";
 import DealModal from "./dealModal/DealModal";
-import { type DiceHand } from "../../types/dice";
+import { type DiceHand } from "../../types/die";
 import DiceRoller from "../../components/diceRoller/DiceRoller";
 import { GameActions } from "../../reducers/game";
 import GameSelectors from "../../selectors/game";

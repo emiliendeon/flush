@@ -1,9 +1,9 @@
 import "./diceRoller.scss";
 
-import { type DiceHand, type DiceValue } from "../../types/dice";
+import { type DiceHand, type DieValue } from "../../types/die";
 import { useEffect, useMemo, useState } from "react";
 import Button from "../form/button/Button";
-import Dice from "../dice/Dice";
+import Die from "../die/Die";
 import GameSelectors from "../../selectors/game";
 import GameUtils from "../../utils/game";
 import Instruction from "../instruction/Instruction";
@@ -19,8 +19,8 @@ type DiceRollerProps = {
 	onValidate: () => void;
 };
 
-type DiceState = {
-	value?: DiceValue;
+type DieState = {
+	value?: DieValue;
 	locked: boolean;
 };
 
@@ -35,7 +35,7 @@ const DiceRoller = ({
 	const { step, currentRoundIndex } = useSelector((state) => state.game);
 	const currentRound = useSelector(GameSelectors.currentRound);
 
-	const [diceStates, setDiceStates] = useState<DiceState[]>(
+	const [diceStates, setDiceStates] = useState<DieState[]>(
 		Array.from({ length: diceCount }, () => ({ locked: false }))
 	);
 	const [rerollsCount, setRerollsCount] = useState(-1);
@@ -44,7 +44,7 @@ const DiceRoller = ({
 		if (!value) {
 			return diceStates;
 		}
-		return diceStates.map((diceState, i) => ({ ...diceState, value: value[i] }));
+		return diceStates.map((dieState, i) => ({ ...dieState, value: value[i] }));
 	}, [diceStates, value]);
 
 	const remainingRerollsCount = useMemo(() => {
@@ -73,16 +73,16 @@ const DiceRoller = ({
 
 	useEffect(() => {
 		if (currentRoundIndex !== undefined) {
-			setDiceStates((prev) => prev.map((diceState) => ({ ...diceState, locked: false })));
+			setDiceStates((prev) => prev.map((dieState) => ({ ...dieState, locked: false })));
 			setRerollsCount(-1);
 		}
 	}, [currentRoundIndex]);
 
-	const onDiceClick = (diceIndex: number) => {
+	const onDieClick = (dieIndex: number) => {
 		if (rerollsCount >= 0) {
 			setDiceStates((prev) =>
-				prev.map((diceState, index) =>
-					index === diceIndex ? { ...diceState, locked: !diceState.locked } : diceState
+				prev.map((dieState, index) =>
+					index === dieIndex ? { ...dieState, locked: !dieState.locked } : dieState
 				)
 			);
 		}
@@ -91,10 +91,10 @@ const DiceRoller = ({
 	const onRoll = () => {
 		onChange(
 			diceStatesComputed.map(
-				(diceState) =>
-					(diceState.locked
-						? diceState.value
-						: NumberUtils.safeFloor(Math.random() * 6)) as DiceValue
+				(dieState) =>
+					(dieState.locked
+						? dieState.value
+						: NumberUtils.safeFloor(Math.random() * 6)) as DieValue
 			)
 		);
 		setRerollsCount((prev) => prev + 1);
@@ -125,13 +125,13 @@ const DiceRoller = ({
 			</Instruction>
 			<div className="dice-row">
 				{Array.from({ length: diceCount }, (_v, k) => (
-					<Dice
+					<Die
 						key={k}
 						value={diceStatesComputed[k].value}
 						locked={diceStatesComputed[k].locked || disabled || isRerollingOver}
 						disabled={disabled || isRerollingOver}
 						onClick={() => {
-							onDiceClick(k);
+							onDieClick(k);
 						}}
 					/>
 				))}

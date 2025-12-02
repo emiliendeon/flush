@@ -1,8 +1,8 @@
 import { type BonusId, BonusIds, Bonuses } from "../utils/game";
-import { type DiceHand, DiceValues } from "../types/dice";
+import { type DiceHand, DieValues } from "../types/die";
 import ArrayUtils from "../utils/array";
 
-type HandCounts = number[] & { length: typeof DiceValues.length };
+type HandCounts = number[] & { length: typeof DieValues.length };
 
 const computeStraightLength = (handCounts: HandCounts) => {
 	let maxLength = 0;
@@ -76,8 +76,8 @@ const computeScore = (hand: DiceHand) => {
 };
 
 const computeBonusId = (hand: DiceHand): BonusId | null => {
-	const handCounts = DiceValues.map((diceValue) =>
-		ArrayUtils.count(hand, (value) => value === diceValue)
+	const handCounts = DieValues.map((dieValue) =>
+		ArrayUtils.count(hand, (value) => value === dieValue)
 	) as HandCounts;
 
 	let maxBonusId = null;
